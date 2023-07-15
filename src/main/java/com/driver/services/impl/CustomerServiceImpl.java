@@ -50,7 +50,7 @@ public class CustomerServiceImpl implements CustomerService {
 		List<Driver> listOfDrivers=driverRepository2.findAll();
 		for(Driver d: listOfDrivers){
 
-			if(d.getCab().isAvailable()){
+			if(d.getCab().getAvailable()){
 				if((driver==null) || driver.getDriverId()>d.getDriverId()){
 					driver=d;
 
@@ -60,18 +60,19 @@ public class CustomerServiceImpl implements CustomerService {
 		if(driver==null)
 			throw new Exception("No cab available!");
 		Customer customer=customerRepository2.findById(customerId).get();
+
 		bookedTrip.setCustomer(customer);
+		driver.getCab().setAvailable(false);
+		bookedTrip.setDriver(driver);
 		bookedTrip.setFromLocation(fromLocation);
 		bookedTrip.setToLocation(toLocation);
 		bookedTrip.setDistanceInKm(distanceInKm);
-		bookedTrip.setDriver(driver);
-		driver.getCab().setAvailable(false);
 		bookedTrip.setStatus(TripStatus.CONFIRMED);
 
 		customer.getTripBookingList().add(bookedTrip);
 		customerRepository2.save(customer);
 
-		//driverRepository2.getTripBookingList().add(bookedTrip);
+		driver.getTripBookingList().add(bookedTrip);
 		driverRepository2.save(driver);
 		return bookedTrip;
 	}

@@ -1,56 +1,51 @@
 package com.driver.model;
 
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import com.driver.model.Customer;
+import com.driver.model.TripStatus;
+
+import javax.persistence.*;
 
 @Entity
-@Table(name="tripbooking")
-public class TripBooking{
+@Table(name = "tripBooking")
+public class TripBooking {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int tripBookingId;
+    private int tripBookingId;
 
-    String fromLocation;
-    String toLocation;
-    int distanceInKm;
+    private String fromLocation;
+    private String toLocation;
+    private int distanceInKm;
 
     @Enumerated(EnumType.STRING)
-    TripStatus status;
-    
-    int bill;
+    private TripStatus status;
 
-    @ManyToOne
+    private int bill;
+
+   @ManyToOne
+   @JoinColumn
+   Customer customer;
+
+   @ManyToOne
     @JoinColumn
     Driver driver;
 
-    @ManyToOne
-    @JoinColumn
-    Customer customer;
-
-    public TripBooking(){
-        
-    }
-    public int getTripBookingId() {
-        return tripBookingId;
+    public TripBooking() {
     }
 
-    public TripBooking(int tripBookingId, String fromLocation, String toLocation, int distanceInKm, TripStatus status,
-            int bill, Driver driver, Customer customer) {
+    public TripBooking(int tripBookingId, String fromLocation, String toLocation, int distanceInKm, TripStatus status, int bill, Customer customer, Driver driver) {
         this.tripBookingId = tripBookingId;
         this.fromLocation = fromLocation;
         this.toLocation = toLocation;
         this.distanceInKm = distanceInKm;
         this.status = status;
         this.bill = bill;
-        this.driver = driver;
         this.customer = customer;
+        this.driver = driver;
+    }
+
+    public int getTripBookingId() {
+        return tripBookingId;
     }
 
     public void setTripBookingId(int tripBookingId) {
@@ -97,14 +92,6 @@ public class TripBooking{
         this.bill = bill;
     }
 
-    public Driver getDriver() {
-        return driver;
-    }
-
-    public void setDriver(Driver driver) {
-        this.driver = driver;
-    }
-
     public Customer getCustomer() {
         return customer;
     }
@@ -113,4 +100,11 @@ public class TripBooking{
         this.customer = customer;
     }
 
+    public Driver getDriver() {
+        return driver;
+    }
+
+    public void setDriver(Driver driver) {
+        this.driver = driver;
+    }
 }

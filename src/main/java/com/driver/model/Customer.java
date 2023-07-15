@@ -16,10 +16,10 @@ import javax.persistence.Table;
 public class Customer{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int customerId;
+    private int customerId;
     
-    String mobile;
-    String password;
+    private String mobile;
+    private String password;
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
     List<TripBooking> tripBookingList=new ArrayList<>();
